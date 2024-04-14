@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, HttpCode } from '@nestjs/common';
 import { NoteService } from './note.service';
 import { CreateNoteDto } from './dto/create-note.dto';
 import { UpdateNoteDto } from './dto/update-note.dto';
@@ -8,18 +8,20 @@ export class NoteController {
   constructor(private readonly noteService: NoteService) {}
 
   @Post()
+  @HttpCode(201)
   create(@Body() createNoteDto: CreateNoteDto) {
     return this.noteService.create(createNoteDto);
   }
 
-  @Get()
-  findAll() {
-    return this.noteService.findAll();
+  @Get(':id')
+  @HttpCode(200)
+  getNotesByUserId(@Param('id') id: string) {
+    return this.noteService.getNotesByUserId(+id);
   }
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.noteService.findOne(+id);
+  @Get(':user_id/:id')
+  getNoteByUserId(@Param('user_id') userId: string, @Param('id') id: string) {
+    return this.noteService.getNoteByUserId(+userId, +id);
   }
 
   @Patch(':id')
