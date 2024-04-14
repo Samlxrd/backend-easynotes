@@ -18,7 +18,7 @@ export class DbconnectionService {
                 console.error('Error connecting to database: ' + err.stack);
                 return;
             }
-            console.log('Connected to database as id ' + this.connection.threadId);
+            console.log('Connected: ' + this.connection.threadId);
         });
     }
 
